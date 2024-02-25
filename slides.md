@@ -20,18 +20,26 @@ paging: "%d / %d"
 
 # Classic approach
 
-* CRON starts a process at boot
-* user starts a process at deployment/reconfiguration
-  * detach from terminal
+* init starts a process at switch of runlevel (on boot)
 * use runlevels to keep the right order of running
 * redirect output to file
 * write PID to file
 * sequential launch
 
+# Our approach
+
+* CRON starts a process at boot
+* user starts a process at deployment/reconfiguration
+  * detach from terminal
+  * env vars
+
+---
+
 # systemd approach
 
 * describe the "service" in file
 * use `systemctl` to start now or on boot, stop, restart, ...
+* journald for logs
 
 ---
 

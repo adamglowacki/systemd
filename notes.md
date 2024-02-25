@@ -1,3 +1,11 @@
+Why init scripts are not perfect:
+* everything has to be written manually, from scratch
+* start script: usually it's not a single binary to be run (redirect output to
+  files, logs should be rotated, PID has to be stored somewhere, it's nice to
+  inform the admin about crash, maybe automatic rerun but not too many, ...)
+* stop script: locate the process and send a signal
+* we can't use them since we are not `root`; so CRON + our own not-init scripts
+
 What it does:
 * PID 1 and everything else
 * socket & D-Bus activation for starting services (what is that?)
@@ -50,3 +58,9 @@ Together with polkit (kind of more sophisticated `sudo`).
 `systemctl reboot`, `systemctl poweroff`, ...
 
 # loginctl
+
+# TODO
+* learn about D-Bus
+* how to make a service self-restart
+* how to notify somebody on crash
+* what it means WantedBy=
