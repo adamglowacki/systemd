@@ -12,6 +12,15 @@ paging: "%d / %d"
 * 2010 -- systemd (Red Hat) was released
 * now -- (almost) everybody uses systemd
 
+## Runlevels
+
+* 0 = off
+* 1 = single-user mode
+* 2 = multi-user mode
+* 3 = multi-user mode with network
+* 5 = multi-user mode with network and GUI
+* 6 = reboot
+
 ---
 
 # Daemon = service
