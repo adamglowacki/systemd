@@ -3,8 +3,9 @@ author: ""
 date: ""
 paging: "%d / %d"
 ---
-# Unix
 
+# Unix
+## History
 * 1969 at Bell Labs
 * 1983 -- System V (runlevels and init scripts)
 * ...
@@ -12,8 +13,9 @@ paging: "%d / %d"
 * 2010 -- systemd (Red Hat) was released
 * now -- (almost) everybody uses systemd
 
-## Runlevels
+---
 
+## Runlevels
 * 0 = off
 * 1 = single-user mode
 * 2 = multi-user mode
@@ -28,7 +30,6 @@ paging: "%d / %d"
 ---
 
 # Classic approach
-
 * init starts a process at switch of runlevel (on boot)
 * use runlevels to keep the right order of running
 * redirect output to file
@@ -36,7 +37,6 @@ paging: "%d / %d"
 * sequential launch
 
 # Our approach
-
 * CRON starts a process at boot
 * user starts a process at deployment/reconfiguration
   * detach from terminal
@@ -45,17 +45,20 @@ paging: "%d / %d"
 ---
 
 # systemd approach
-
 * describe the "service" in file
 * use `systemctl` to start now or on boot, stop, restart, ...
 * journald for logs
 
+# Files
+* `~/.config/systemd/user/`
+* `/etc/systemd/system/`
+* `/etc/systemd/user/`
+* ...
+
 ---
 
 # Long-running process
-
 ```
-$ cat .config/systemd/user/nc.service 
 [Unit]
 Description=Listen and accept incoming connections
 
@@ -64,6 +67,8 @@ Type=exec
 ExecStart=nc -klv 12345
 StandardOutput=append:/home/adas/nc.log
 StandardError=inherit
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=default.target
@@ -71,8 +76,20 @@ WantedBy=default.target
 
 ---
 
-# Start/stop commands
+# WantedBy=
+```
+[adas@andromeda ~]$ tree .config/systemd/user/
+.config/systemd/user/
+├── default.target.wants
+│   ├── nc.service -> /home/adas/.config/systemd/user/nc.service
+│   └── postgresql.service -> /home/adas/.config/systemd/user/postgresql.service
+├── nc.service
+└── postgresql.service
+```
 
+---
+
+# Start/stop commands
 ```
 [Unit]
 Description=PostgreSQL database server
@@ -90,7 +107,7 @@ WantedBy=default.target
 ---
 
 # Use it
-
+* `loginctl enable-linger strats`
 * `systemctl --user daemon-reload`
 * `systemctl --user status postgresql.service`
 * `systemctl --user enable --now postgresql.service`
@@ -99,8 +116,27 @@ WantedBy=default.target
 
 ---
 
-# Other components
+# Activation
+* when a client connects to a socket (`inetd`)
+* over `D-Bus`
+* when a file appeared
+* when a device is connected
 
+---
+
+# Units
+* .service
+* .mount
+* .device
+* .socket
+* .swap
+* .timer
+* .snapshot
+* ...
+
+---
+
+# Other components
 * systemd-boot
 * systemd.mount (/etc/fstab)
 * systemd-homed

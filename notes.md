@@ -13,6 +13,8 @@ is provided with just a bunch of shell scripts and it runs them at certain
 points of time. Namely, when a "runlevel" is being changed. It's like a stage
 of the system's life.
 
+---
+
 The runlevel is just a number. It may look like this.
 
 Having a shell script that is just run is very flexible, one can do virtually
@@ -60,9 +62,69 @@ user (drop root permissions).
 
 Now we can do it without being root.
 
+Since we are not `root`, we put our service files inside our home directory.
+
 ---
 
 This is how we can specify a simple long-running background service.
+
+We redirected all the stdout and stderr to a single file (no file rotation). We
+could make use of journald (a component of systemd to collect logs) but it I
+don't understand how it works on our servers. We don't have root so can't even
+investigate further...
+
+This process will be restarted if it dies. We can `kill` it and it will be
+resurrected after up to 3 seconds.
+
+`WantedBy=` introduces some kind of dependency management. It says our service
+should be run (if enabled) after the "default" target.
+
+---
+
+This dependency is later shown in filesystem with symlinks.
+
+---
+
+This is how we can specify a different kind of service. Here a single command
+starts a process, another one stops it.
+
+Unfortunately in this case there is no
+monitoring since systemd has no idea which process was started by the start
+command. As a result, we can kill PostgreSQL manually but `systemctl` will
+still show it as running.
+
+---
+
+Why `enable-linger`? Otherwise the services can't be started at the time of the boot. If we start a service, we can log out and it's still running. But before
+we log in for the first time after system boot -- no service would be started.
+
+Why `daemon-reload`? Because without it systemd wouldn't reread the service
+files.
+
+If we just `enable` a service (without `--now`) it will be run on next boot (or
+whatever we defined as activation), not right now.
+
+`stop` doesn't disable `disable`. It just temporarily stops the running
+service. It will be launched the next time it's activated.
+
+---
+
+We need a service activated at boot. But essentially systemd was designed to
+postpone starting some of the services as much as possible to provide faster
+boots. For example a service can be started when somebody opens a connection to
+a socket (a bit like `inetd` program in the past).
+
+---
+
+Services are just one kind of the resources administered by systemd.
+
+---
+
+Systemd has grown to huge size. It hijacks all the Linux components, in my
+opinion. It's muuuuuch more than init process implementation. It tries to
+manage the whole OS. Even VMs!
+
+---
 
 Why init scripts are not perfect:
 * everything has to be written manually, from scratch
