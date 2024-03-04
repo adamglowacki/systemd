@@ -7,21 +7,11 @@ paging: "%d / %d"
 # Unix
 ## History
 * 1969 at Bell Labs
-* 1983 -- System V (runlevels and init scripts)
+* 1983 -- System V (init scripts)
 * ...
 * 1991 -- Linux
 * 2010 -- systemd (Red Hat) was released
 * now -- (almost) everybody uses systemd
-
----
-
-## Runlevels
-* 0 = off
-* 1 = single-user mode
-* 2 = multi-user mode
-* 3 = multi-user mode with network
-* 5 = multi-user mode with network and GUI
-* 6 = reboot
 
 ---
 

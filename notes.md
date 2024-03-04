@@ -1,17 +1,20 @@
 It all started with Unix, more than 50 years ago. Our Linux shares the
 philosophy, is based on Unix. Or Unixes, to be more precise.
 
+Very early at the boot time, a process called "init" is created by the kernel.
+It gets PID 1 always. It's a grandfather of every other process in the system.
+This process must know how to start all the other system components --- how to
+set up network, how to run webserver, logging daemon, X11 server, logind and so
+on. It needs to know what is to be run/monitored/killed and when.
+
+At some point in time, there came a Unix named System V. In this specific Unix,
+the init process provided with just a bunch of shell scripts and it runs them
+at certain points of time. Namely, when a "runlevel" is being changed. It's
+like a stage of the system's life.
+
 At some point in time, there came a Unix named System V. In this specific Unix,
 appeared a thing called init scripts. It was a way to boot the system and
 manage all its components.
-
-Very early at the boot time, a process called "init" is created. It gets PID 1
-always. It's a grandfather of every other process in the system. This process
-must know how to start all the other system components --- how to set up
-network, how to run webserver, logging daemon, X11 server, logind and so on. It
-is provided with just a bunch of shell scripts and it runs them at certain
-points of time. Namely, when a "runlevel" is being changed. It's like a stage
-of the system's life.
 
 ---
 
@@ -69,8 +72,8 @@ Since we are not `root`, we put our service files inside our home directory.
 This is how we can specify a simple long-running background service.
 
 We redirected all the stdout and stderr to a single file (no file rotation). We
-could make use of journald (a component of systemd to collect logs) but it I
-don't understand how it works on our servers. We don't have root so can't even
+could make use of journald (a component of systemd to collect logs) but I don't
+understand how it works on our servers. We don't have root so can't even
 investigate further...
 
 This process will be restarted if it dies. We can `kill` it and it will be
