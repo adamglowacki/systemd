@@ -5,7 +5,7 @@ paging: "%d / %d"
 ---
 
 # Unix
-## History
+
 * 1969 at Bell Labs
 * 1983 -- System V (init scripts)
 * ...
@@ -13,9 +13,13 @@ paging: "%d / %d"
 * 2010 -- systemd (Red Hat) was released
 * now -- (almost) everybody uses systemd
 
----
-
-# Daemon = service
+```
+init
+ │
+ ├─logind──bash
+ │
+ └─httpd
+ ```
 
 ---
 
