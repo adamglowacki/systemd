@@ -254,7 +254,11 @@ multi-user.target reached after 2.197s in userspace.
 ```
 
 ```
-$ systemd-analyze
-Startup finished in 11.371s (firmware) + 2.449s (loader) + 1.011s (kernel) + 1.718s (initrd) + 20.636s (userspace) = 37.187s
-multi-user.target reached after 8.700s in userspace.
+$ systemd-analyze --user blame 
+113ms postgresql.service
+ 16ms dbus.socket
+ 13ms systemd-tmpfiles-setup.service
+  8ms dbus-broker.service
+  4ms grub-boot-success.service
+  3ms nc.service
 ```
