@@ -147,7 +147,7 @@ $ systemctl --user enable --now nc
 
 # Other components
 * systemd-boot
-* systemd.mount (/etc/fstab)
+* systemd.mount
 * systemd-homed
 * systemd-logind
 * systemd-networkd
